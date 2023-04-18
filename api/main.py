@@ -4,17 +4,23 @@ from flask import Flask, request
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path = "./.env.local")
-app = Flask(__name__)
-
 '''
 create URL & API KEY
 '''
 UNSPLASH_URL = "https://api.unsplash.com/photos/random"
 UNSPLASH_KEY = os.environ.get("UNSPLASH_KEY", "")
+DEBUG= bool(os.environ.get("DEBUG",True))#make the Debug value True to on Debug moode , if want to set Debug mode to False, please set DEBUG= in .env.local file
 
 #if UNSPLASH_KEY is empty 
 if not UNSPLASH_KEY:
     raise EnvironmentError("Please create .env.local file and insert there UNSPLASH_KEY")
+
+app = Flask(__name__)
+
+#make Debug mode to run the program when have additional changes and not to maunally run the program in the developing stage
+app.config["DEBUG"]= DEBUG
+
+
 
 @app.route("/new-image")
 def new_image():
