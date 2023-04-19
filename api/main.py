@@ -2,6 +2,7 @@ import os
 import requests
 from flask import Flask, request
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv(dotenv_path = "./.env.local")
 '''
@@ -16,6 +17,7 @@ if not UNSPLASH_KEY:
     raise EnvironmentError("Please create .env.local file and insert there UNSPLASH_KEY")
 
 app = Flask(__name__)
+CORS(app)
 
 #make Debug mode to run the program when have additional changes and not to maunally run the program in the developing stage
 app.config["DEBUG"]= DEBUG
@@ -24,6 +26,9 @@ app.config["DEBUG"]= DEBUG
 
 @app.route("/new-image")
 def new_image():
+    '''
+    get the query string from user
+    '''
     word = request.args.get("query")
 
     headers = {
